@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HistoryTime", "HistoryTime\HistoryTime.csproj", "{29A91425-6E35-4139-A83C-D3E821DB41C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HistoryTime.Domain", "HistoryTime.Domain\HistoryTime.Domain.csproj", "{492BEDA8-BF1D-412A-BCF4-58597C229D08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HistoryTime.Data", "HistoryTime.Data\HistoryTime.Data.csproj", "{0C3A82D1-D6BF-48A0-A52E-95CF38D3E969}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{29A91425-6E35-4139-A83C-D3E821DB41C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29A91425-6E35-4139-A83C-D3E821DB41C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29A91425-6E35-4139-A83C-D3E821DB41C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29A91425-6E35-4139-A83C-D3E821DB41C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{492BEDA8-BF1D-412A-BCF4-58597C229D08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{492BEDA8-BF1D-412A-BCF4-58597C229D08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{492BEDA8-BF1D-412A-BCF4-58597C229D08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{492BEDA8-BF1D-412A-BCF4-58597C229D08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C3A82D1-D6BF-48A0-A52E-95CF38D3E969}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C3A82D1-D6BF-48A0-A52E-95CF38D3E969}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C3A82D1-D6BF-48A0-A52E-95CF38D3E969}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C3A82D1-D6BF-48A0-A52E-95CF38D3E969}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
