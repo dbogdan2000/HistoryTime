@@ -17,7 +17,14 @@
     },
     "frameworks": {
       "netcoreapp3.0": {
-        "projectReferences": {}
+        "projectReferences": {
+          "C:\\University\\Projects\\HistoryTime\\HistoryTime.Data\\HistoryTime.Data.csproj": {
+            "projectPath": "C:\\University\\Projects\\HistoryTime\\HistoryTime.Data\\HistoryTime.Data.csproj"
+          },
+          "C:\\University\\Projects\\HistoryTime\\HistoryTime.Domain\\HistoryTime.Domain.csproj": {
+            "projectPath": "C:\\University\\Projects\\HistoryTime\\HistoryTime.Domain\\HistoryTime.Domain.csproj"
+          }
+        }
       }
     },
     "warningProperties": {
@@ -28,6 +35,12 @@
   },
   "frameworks": {
     "netcoreapp3.0": {
+      "dependencies": {
+        "Swashbuckle.AspNetCore": {
+          "target": "Package",
+          "version": "[5.4.0, )"
+        }
+      },
       "imports": [
         "net461",
         "net462",

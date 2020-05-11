@@ -5,7 +5,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers" />
+      <ProjectReference Include="..\HistoryTime.Data\HistoryTime.Data.csproj" />
+      <ProjectReference Include="..\HistoryTime.Domain\HistoryTime.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.0" />
     </ItemGroup>
 
 </Project>

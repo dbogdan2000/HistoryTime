@@ -1,0 +1,8 @@
+C:\University\Projects\HistoryTime\HistoryTime.Domain\bin\Debug\netcoreapp3.0\HistoryTime.Domain.deps.json
+C:\University\Projects\HistoryTime\HistoryTime.Domain\bin\Debug\netcoreapp3.0\HistoryTime.Domain.dll
+C:\University\Projects\HistoryTime\HistoryTime.Domain\bin\Debug\netcoreapp3.0\HistoryTime.Domain.pdb
+C:\University\Projects\HistoryTime\HistoryTime.Domain\obj\Debug\netcoreapp3.0\HistoryTime.Domain.csprojAssemblyReference.cache
+C:\University\Projects\HistoryTime\HistoryTime.Domain\obj\Debug\netcoreapp3.0\HistoryTime.Domain.AssemblyInfoInputs.cache
+C:\University\Projects\HistoryTime\HistoryTime.Domain\obj\Debug\netcoreapp3.0\HistoryTime.Domain.AssemblyInfo.cs
+C:\University\Projects\HistoryTime\HistoryTime.Domain\obj\Debug\netcoreapp3.0\HistoryTime.Domain.dll
+C:\University\Projects\HistoryTime\HistoryTime.Domain\obj\Debug\netcoreapp3.0\HistoryTime.Domain.pdb

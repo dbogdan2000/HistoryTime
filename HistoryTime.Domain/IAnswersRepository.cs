@@ -1,8 +1,10 @@
+using System.Collections.Generic;
+
 namespace HistoryTime.Domain
 {
     public interface IAnswersRepository
     {
-        Answer[] Get();
+        IEnumerable<Answer> Get();
         
         Answer Get(int id);
         
@@ -10,7 +12,9 @@ namespace HistoryTime.Domain
         
         Answer Get(bool isCorrect);
 
-        Question GetQuestion(int id);
+        Question GetQuestion(int questionId);
+
+        ICollection<UserAnswer> GetUsersAnswers(int id);
 
         void Create(Answer answer);
 

@@ -1,14 +1,16 @@
+using System.Collections.Generic;
+
 namespace HistoryTime.Domain
 {
     public interface IQuizzesRepository
     {
-        Quiz[] Get();
+        IEnumerable<Quiz> Get();
 
         Quiz Get(int id);
 
         Quiz Get(string name);
 
-        Question[] GetQuestions(int id);
+        IEnumerable<Question> GetQuestions(int id);
 
         void Create(Quiz quiz);
 

@@ -7,6 +7,6 @@ namespace HistoryTime.Domain
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public ICollection<Question> Questions { get; set; }
+        public IEnumerable<Question> Questions { get; set; }
     }
 }

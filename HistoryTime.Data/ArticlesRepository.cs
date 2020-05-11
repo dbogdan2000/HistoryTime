@@ -1,56 +1,97 @@
 using System.Collections.Generic;
 using System.Linq;
 using HistoryTime.Domain;
+using Npgsql;
 
 namespace HistoryTime.Data
 {
     public class ArticlesRepository : IArticlesRepository
     {
-        private readonly ICollection<Article> _articles = new List<Article>();
-        
-        public Article[] Get()
+        private readonly string _connectionString;
+
+        public ArticlesRepository(string connectionString)
         {
-            return _articles.ToArray();
+            _connectionString = connectionString;
+        }
+        
+        public IEnumerable<Article> Get()
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+                var command = new NpgsqlCommand("select * from articles", connection);
+                NpgsqlDataReader reader = command.ExecuteReader();
+                var articles = new List<Article>();
+                while (reader.Read())
+                {
+                    var article = new Article();
+                    article.Id = reader.GetInt32(0);
+                    article.Header = reader.GetString(1);
+                    article.Text = reader.GetString(2);
+                    articles.Add(article);
+                }
+
+                return articles;
+            }
         }
 
         public Article Get(int id)
         {
-            foreach (var article in _articles)
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
-                if (article.Id == id)
+                connection.Open();
+                var command = new NpgsqlCommand($"select * from articles where id = {id}", connection);
+                NpgsqlDataReader reader = command.ExecuteReader();
+                if (reader.Read())
                 {
+                    var article = new Article();
+                    article.Id = reader.GetInt32(0);
+                    article.Header = reader.GetString(1);
+                    article.Text = reader.GetString(2);
                     return article;
                 }
+
+                return null;
             }
-            return null;
         }
 
         public Article Get(string header)
         {
-            foreach (var article in _articles)
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
-                if (article.Header == header)
+                connection.Open();
+                var command = new NpgsqlCommand($"select * from articles where header = '{header}'", connection);
+                NpgsqlDataReader reader = command.ExecuteReader();
+                if (reader.Read())
                 {
+                    var article = new Article();
+                    article.Id = reader.GetInt32(0);
+                    article.Header = reader.GetString(1);
+                    article.Text = reader.GetString(2);
                     return article;
                 }
+
+                return null;
             }
-            return null;
         }
         
         public void Create(Article article)
         {
-            _articles.Add(article);
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+                var command = new NpgsqlCommand($"insert into articles(header, text) values('{article.Header}', '{article.Text}')", connection);
+                int number = command.ExecuteNonQuery();
+            }
         }
 
         public void Delete(int id)
         {
-            foreach (var article in _articles)
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
-                if (article.Id == id)
-                {
-                    _articles.Remove(article);
-                    return;
-                }
+                connection.Open();
+                var command = new NpgsqlCommand($"delete from articles where id = {id}", connection);
+                int number = command.ExecuteNonQuery();
             }
         }
     }
