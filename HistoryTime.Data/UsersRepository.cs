@@ -18,7 +18,7 @@ namespace HistoryTime.Data
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
-                var command = new NpgsqlCommand("select * from users", connection);
+                var command = new NpgsqlCommand($"select * from users", connection);
                 NpgsqlDataReader reader = command.ExecuteReader();
                 var users = new List<User>();
                 while (reader.Read())
@@ -27,6 +27,10 @@ namespace HistoryTime.Data
                     user.Id = reader.GetInt32(0);
                     user.Name = reader.GetString(1);
                     user.RoleId = reader.GetInt32(2);
+                    user.Surname = reader.GetString(3);
+                    user.Patronymic = reader.GetString(4);
+                    user.Email = reader.GetString(5);
+                    user.DateOfBirth = reader.GetDateTime(6).Date;
                     users.Add(user);
                 }
                 return users;
@@ -46,28 +50,12 @@ namespace HistoryTime.Data
                     user.Id = reader.GetInt32(0);
                     user.Name = reader.GetString(1);
                     user.RoleId = reader.GetInt32(2);
-                }
-                return null;
-            }
-        }
-
-        public User Get(string name)
-        {
-            using (var connection = new NpgsqlConnection(_connectionString))
-            {
-                connection.Open();
-                var command = new NpgsqlCommand($"select * from users where name = '{name}'", connection);
-                NpgsqlDataReader reader = command.ExecuteReader();
-                
-                if (reader.Read())
-                {
-                    var user = new User();
-                    user.Id = reader.GetInt32(0);
-                    user.Name = reader.GetString(1);
-                    user.RoleId = reader.GetInt32(2);
+                    user.Surname = reader.GetString(3);
+                    user.Patronymic = reader.GetString(4);
+                    user.Email = reader.GetString(5);
+                    user.DateOfBirth = reader.GetDateTime(6).Date;
                     return user;
                 }
-
                 return null;
             }
         }
@@ -77,14 +65,15 @@ namespace HistoryTime.Data
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
-                var command = new NpgsqlCommand($"select * from users_answers where user_id = {userId}");
+                var command = new NpgsqlCommand($"select * from users_answers where user_id = {userId}", connection);
                 NpgsqlDataReader reader = command.ExecuteReader();
                 var userAnswers = new List<UserAnswer>();
                 while (reader.Read())
                 {
                     var userAnswer = new UserAnswer();
                     userAnswer.UserId = reader.GetInt32(0);
-                    userAnswer.AnswerId = reader.GetInt32(1);
+                    userAnswer.QuestionId = reader.GetInt32(1);
+                    userAnswer.AnswerId = reader.GetInt32(2);
                     userAnswers.Add(userAnswer);
                 }
 
@@ -97,7 +86,7 @@ namespace HistoryTime.Data
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
-                var command = new NpgsqlCommand($"insert into users(name, role_id) values('{user.Name}',(select id from roles where name = 'User'))", connection);
+                var command = new NpgsqlCommand($"insert into users(first_name, role_id, last_name, patronymic, email, date_of_birth) values('{user.Name}', 2, '{user.Surname}', '{user.Patronymic}', '{user.Email}','{user.DateOfBirth.Date.ToString("d")}')", connection);
                 int number = command.ExecuteNonQuery();
             }
         }

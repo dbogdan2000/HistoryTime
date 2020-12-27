@@ -7,14 +7,10 @@ namespace HistoryTime.Domain
         IEnumerable<Answer> Get();
         
         Answer Get(int id);
-        
-        Answer Get(string text);
-        
-        Answer Get(bool isCorrect);
-
-        Question GetQuestion(int questionId);
 
         ICollection<UserAnswer> GetUsersAnswers(int id);
+
+        ICollection<AnswerTheQuestion> GetAnswerTheQuestions(int id);
 
         void Create(Answer answer);
 

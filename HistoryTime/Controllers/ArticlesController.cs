@@ -21,32 +21,33 @@ namespace HistoryTime.Controllers
             return Ok(articles);
         }
         
-        [Route("{header}")]
+        [Route("{id}")]
         [HttpGet]
-        public IActionResult Get(string header)
+        public IActionResult Get(int id)
         {
-            var article = _articlesRepository.Get(header);
+            var article = _articlesRepository.Get(id);
             if (article == null)
                 return NotFound();
             return Ok(article);
         }
 
         [HttpPost]
-        public IActionResult AddArticle(string header, string text)
+        public IActionResult AddArticle(Article article)
         {
-            _articlesRepository.Create(new Article
+            Article articleToCreate = new Article
             {
-                Header = header,
-                Text = text
-            });
+                Header = article.Header,
+                Text = article.Text,
+                Author = article.Author
+            };
+            _articlesRepository.Create(articleToCreate);
             return Ok();
         }
 
         [HttpDelete]
-        public IActionResult DeleteArticle(string header)
+        public IActionResult DeleteArticle(int id)
         {
-            var article = _articlesRepository.Get(header);
-            _articlesRepository.Delete(article.Id);
+            _articlesRepository.Delete(id);
             return Ok(_articlesRepository.Get());
         }
 

@@ -8,17 +8,17 @@ using Microsoft.AspNetCore.Mvc;
 namespace HistoryTime.Controllers
 {
     [Route("api/roles")]
-    public class RoleController : Controller
+    public class RolesController : Controller
     {
         private readonly IRolesRepository _rolesRepository;
 
-        public RoleController(IRolesRepository rolesRepository)
+        public RolesController(IRolesRepository rolesRepository)
         {
             _rolesRepository = rolesRepository;
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult GetRoles()
         {
             var roles = _rolesRepository.Get();
             return Ok(roles.ToList());

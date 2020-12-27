@@ -8,8 +8,6 @@ namespace HistoryTime.Domain
 
         Quiz Get(int id);
 
-        Quiz Get(string name);
-
         IEnumerable<Question> GetQuestions(int id);
 
         void Create(Quiz quiz);

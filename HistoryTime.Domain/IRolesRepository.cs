@@ -8,8 +8,6 @@ namespace HistoryTime.Domain
 
         Role Get(int id);
 
-        Role Get(string name);
-
         void Create(Role role);
 
         void Delete(int id);

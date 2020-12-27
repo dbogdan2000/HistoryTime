@@ -7,12 +7,11 @@ namespace HistoryTime.Domain
         IEnumerable<Question> Get();
         
         Question Get(int id);
-        
-        Question Get(string text);
-
         Quiz GetQuiz(int quizId);
 
-        IEnumerable<Answer> GetAnswers(int id);
+        IEnumerable<AnswerTheQuestion> GetAnswersTheQuestion(int id);
+
+        IEnumerable<UserAnswer> GetUsersAnswers(int id);
 
         void Create(Question question);
 

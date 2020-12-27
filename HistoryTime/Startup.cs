@@ -10,7 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Data.Sql;
 using HistoryTime.Data;
 using HistoryTime.Domain;
 using Microsoft.OpenApi.Models;
@@ -40,6 +39,8 @@ namespace HistoryTime
             services.AddSingleton<IArticlesRepository>(new ArticlesRepository(_config.ConnectionString));
             services.AddSingleton<IQuestionsRepository>(new QuestionsRepository(_config.ConnectionString));
             services.AddSingleton<IUsersAnswersRepository>(new UsersAnswersRepository(_config.ConnectionString));
+            services.AddSingleton<IAnswersTheQuestionsRepository>(
+                new AnswersTheQuestionsRepository(_config.ConnectionString));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "My API", Version = "v1"});
@@ -60,6 +61,12 @@ namespace HistoryTime
             }
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyOrigin();
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+            });    
             app.UseEndpoints(endpoints => { endpoints.MapControllers();});
         }
     }

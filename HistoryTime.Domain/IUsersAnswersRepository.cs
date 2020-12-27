@@ -6,17 +6,17 @@ namespace HistoryTime.Domain
     {
         IEnumerable<UserAnswer> Get();
 
-        IEnumerable<UserAnswer> Get(int userId);
-
-        UserAnswer Get(int userId, int answerId);
+        UserAnswer Get(int userId, int answerId, int questionId);
 
         User GetUser(int userId);
 
         Answer GetAnswer(int answerId);
 
+        Question GetQuestion(int questionId);
+
         void Create(UserAnswer userAnswer);
 
-        void Delete(int answerId, int userId);
+        void Delete(int answerId, int userId, int questionId);
 
     }
 }

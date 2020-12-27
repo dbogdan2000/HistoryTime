@@ -1,0 +1,11 @@
+C:\University\Projects\HistoryTime\HistoryTime.Data\bin\Release\netcoreapp3.0\HistoryTime.Data.deps.json
+C:\University\Projects\HistoryTime\HistoryTime.Data\bin\Release\netcoreapp3.0\HistoryTime.Data.dll
+C:\University\Projects\HistoryTime\HistoryTime.Data\bin\Release\netcoreapp3.0\HistoryTime.Data.pdb
+C:\University\Projects\HistoryTime\HistoryTime.Data\bin\Release\netcoreapp3.0\HistoryTime.Domain.dll
+C:\University\Projects\HistoryTime\HistoryTime.Data\bin\Release\netcoreapp3.0\HistoryTime.Domain.pdb
+C:\University\Projects\HistoryTime\HistoryTime.Data\obj\Release\netcoreapp3.0\HistoryTime.Data.csprojAssemblyReference.cache
+C:\University\Projects\HistoryTime\HistoryTime.Data\obj\Release\netcoreapp3.0\HistoryTime.Data.AssemblyInfoInputs.cache
+C:\University\Projects\HistoryTime\HistoryTime.Data\obj\Release\netcoreapp3.0\HistoryTime.Data.AssemblyInfo.cs
+C:\University\Projects\HistoryTime\HistoryTime.Data\obj\Release\netcoreapp3.0\HistoryTime.Data.csproj.CopyComplete
+C:\University\Projects\HistoryTime\HistoryTime.Data\obj\Release\netcoreapp3.0\HistoryTime.Data.dll
+C:\University\Projects\HistoryTime\HistoryTime.Data\obj\Release\netcoreapp3.0\HistoryTime.Data.pdb

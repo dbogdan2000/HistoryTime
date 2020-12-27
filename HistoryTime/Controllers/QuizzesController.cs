@@ -20,11 +20,11 @@ namespace HistoryTime.Controllers
             return Ok(quizzes);
         }
 
-        [Route("{name}")]
+        [Route("{id}")]
         [HttpGet]
-        public IActionResult Get(string name)
+        public IActionResult Get(int id)
         {
-            var quiz = _quizzesRepository.Get(name);
+            var quiz = _quizzesRepository.Get(id);
             if (quiz == null)
                 return NotFound();
             quiz.Questions = _quizzesRepository.GetQuestions(quiz.Id);
@@ -32,20 +32,19 @@ namespace HistoryTime.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddQuiz(string name)
+        public IActionResult AddQuiz(Quiz quiz)
         {
             _quizzesRepository.Create(new Quiz
             {
-                Name = name
+                Theme = quiz.Theme
             });
             return Ok();
         }
 
         [HttpDelete]
-        public IActionResult DeleteQuiz(string name)
+        public IActionResult DeleteQuiz(int id)
         {
-            var quiz = _quizzesRepository.Get(name);
-            _quizzesRepository.Delete(quiz.Id);
+            _quizzesRepository.Delete(id);
             return Ok(_quizzesRepository.Get());
         }
     }

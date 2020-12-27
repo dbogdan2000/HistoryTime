@@ -22,7 +22,7 @@ namespace HistoryTime.Data
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
-                var command = new NpgsqlCommand("select * from roles", connection);
+                var command = new NpgsqlCommand($"select * from roles", connection);
                 NpgsqlDataReader reader = command.ExecuteReader();
                 var roles = new List<Role>();
                 while (reader.Read())
@@ -55,27 +55,7 @@ namespace HistoryTime.Data
                 return null;
             }
         }
-
-        public Role Get(string name)
-        {
-            using (var connection = new NpgsqlConnection(_connectionString))
-            {
-                connection.Open();
-                var command = new NpgsqlCommand($"select * from roles where name='{name}'", connection);
-                NpgsqlDataReader reader = command.ExecuteReader();
-                
-                if (reader.Read())
-                {
-                    var role = new Role();
-                    role.Id = reader.GetInt32(0);
-                    role.Name = reader.GetString(1);
-                    return role;
-                }
-
-                return null;
-            }
-        }
-
+        
         public void Create(Role role)
         {
             using (var connection = new NpgsqlConnection(_connectionString))

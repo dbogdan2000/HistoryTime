@@ -19,7 +19,7 @@ namespace HistoryTime.Data
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
-                var command = new NpgsqlCommand("select * from articles", connection);
+                var command = new NpgsqlCommand($"select * from articles", connection);
                 NpgsqlDataReader reader = command.ExecuteReader();
                 var articles = new List<Article>();
                 while (reader.Read())
@@ -28,6 +28,7 @@ namespace HistoryTime.Data
                     article.Id = reader.GetInt32(0);
                     article.Header = reader.GetString(1);
                     article.Text = reader.GetString(2);
+                    article.Author = reader.GetString(3);
                     articles.Add(article);
                 }
 
@@ -48,6 +49,7 @@ namespace HistoryTime.Data
                     article.Id = reader.GetInt32(0);
                     article.Header = reader.GetString(1);
                     article.Text = reader.GetString(2);
+                    article.Author = reader.GetString(3);
                     return article;
                 }
 
@@ -55,32 +57,12 @@ namespace HistoryTime.Data
             }
         }
 
-        public Article Get(string header)
-        {
-            using (var connection = new NpgsqlConnection(_connectionString))
-            {
-                connection.Open();
-                var command = new NpgsqlCommand($"select * from articles where header = '{header}'", connection);
-                NpgsqlDataReader reader = command.ExecuteReader();
-                if (reader.Read())
-                {
-                    var article = new Article();
-                    article.Id = reader.GetInt32(0);
-                    article.Header = reader.GetString(1);
-                    article.Text = reader.GetString(2);
-                    return article;
-                }
-
-                return null;
-            }
-        }
-        
         public void Create(Article article)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
-                var command = new NpgsqlCommand($"insert into articles(header, text) values('{article.Header}', '{article.Text}')", connection);
+                var command = new NpgsqlCommand($"insert into articles(header, text_of_article, author) values('{article.Header}', '{article.Text}', '{article.Author}')", connection);
                 int number = command.ExecuteNonQuery();
             }
         }

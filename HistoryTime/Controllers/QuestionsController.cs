@@ -7,12 +7,10 @@ namespace HistoryTime.Controllers
     public class QuestionsController : Controller
     {
         private readonly IQuestionsRepository _questionsRepository;
-        private readonly IQuizzesRepository _quizzesRepository;
 
-        public QuestionsController(IQuestionsRepository questionsRepository, IQuizzesRepository quizzesRepository)
+        public QuestionsController(IQuestionsRepository questionsRepository)
         {
             _questionsRepository = questionsRepository;
-            _quizzesRepository = quizzesRepository;
         }
 
         [HttpGet]
@@ -29,20 +27,21 @@ namespace HistoryTime.Controllers
             var question = _questionsRepository.Get(id);
             if (question == null)
                 return NotFound();
-            question.Answers = _questionsRepository.GetAnswers(question.Id);
+            question.AnswerTheQuestions = _questionsRepository.GetAnswersTheQuestion(id);
+            question.UserAnswers = _questionsRepository.GetUsersAnswers(id);
             question.Quiz = _questionsRepository.GetQuiz(question.QuizId);
             return Ok(question);
         }
 
         [HttpPost]
-        public IActionResult AddQuestion(string quizName, string text)
+        public IActionResult AddQuestion(Question question)
         {
-            var quiz = _quizzesRepository.Get(quizName);
+            var quiz = _questionsRepository.GetQuiz(question.QuizId);
             if (quiz == null)
                 return NotFound();
             _questionsRepository.Create(new Question
             {
-                Text = text,
+                Text = question.Text,
                 QuizId = quiz.Id
             });
             return Ok();

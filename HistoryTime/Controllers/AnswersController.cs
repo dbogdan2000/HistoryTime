@@ -7,12 +7,10 @@ namespace HistoryTime.Controllers
     public class AnswersController: Controller
     {
         private readonly IAnswersRepository _answersRepository;
-        private readonly IQuestionsRepository _questionsRepository;
 
-        public AnswersController(IAnswersRepository answersRepository, IQuestionsRepository questionsRepository)
+        public AnswersController(IAnswersRepository answersRepository)
         {
             _answersRepository = answersRepository;
-            _questionsRepository = questionsRepository;
         }
 
         [HttpGet]
@@ -22,38 +20,32 @@ namespace HistoryTime.Controllers
             return Ok(answers);
         }
 
-        [Route("{text}")]
+        [Route("{id}")]
         [HttpGet]
-        public IActionResult Get(string text)
+        public IActionResult Get(int id)
         {
-            var answer = _answersRepository.Get(text);
+            var answer = _answersRepository.Get(id);
             if (answer == null)
                 return NotFound();
             answer.UsersAnswers = _answersRepository.GetUsersAnswers(answer.Id);
-            answer.Question = _answersRepository.GetQuestion(answer.QuestionId);
+            answer.AnswerTheQuestions = _answersRepository.GetAnswerTheQuestions(answer.Id);
             return Ok(answer);
         }
 
         [HttpPost]
-        public IActionResult AddAnswer(string text, bool correct, string questionText)
+        public IActionResult AddAnswer(Answer answer)
         {
-            var question = _questionsRepository.Get(questionText);
-            if (question == null)
-                return NotFound();
             _answersRepository.Create(new Answer
             {
-                Text = text,
-                IsCorrect = correct,
-                QuestionId = question.Id
+                Text = answer.Text
             });
             return Ok();
         }
 
         [HttpDelete]
-        public IActionResult RemoveAnswer(string text)
+        public IActionResult RemoveAnswer(int id)
         {
-            var answer = _answersRepository.Get(text);
-            _answersRepository.Delete(answer.Id);
+            _answersRepository.Delete(id);
             return Ok();
         }
     }

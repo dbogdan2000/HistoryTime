@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "fdoA97nfXnqds2SiB+7l+FTEW5CiqgwAHil9FRx+GqhC4MoAfGrdLe2UqhCEo/pnFzfqrqeMC7TKoz7NFjoShQ==",
+  "success": true,
+  "projectFilePath": "C:\\University\\Projects\\HistoryTime\\HistoryTime.Data\\HistoryTime.Data.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Tom\\.nuget\\packages\\npgsql\\4.1.3.1\\npgsql.4.1.3.1.nupkg.sha512",
+    "C:\\Users\\Tom\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.6.0\\system.runtime.compilerservices.unsafe.4.6.0.nupkg.sha512"
+  ],
+  "logs": []
+}

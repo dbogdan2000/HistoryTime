@@ -20,17 +20,36 @@ namespace HistoryTime.Data
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
-                var command = new NpgsqlCommand("select * from quizzes", connection);
+                var command = new NpgsqlCommand($"select * from quizzes", connection);
                 NpgsqlDataReader reader = command.ExecuteReader();
                 var quizzes = new List<Quiz>();
                 while (reader.Read())
                 {
                     var quiz = new Quiz();
                     quiz.Id = reader.GetInt32(0);
-                    quiz.Name = reader.GetString(1);
+                    quiz.Theme = reader.GetString(1);
                     quizzes.Add(quiz);
                 }
                 return quizzes;
+            }   
+        }
+        
+        public Quiz Get(int id)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+                var command = new NpgsqlCommand($"select * from quizzes where id={id}", connection);
+                NpgsqlDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    var quiz = new Quiz();
+                    quiz.Id = reader.GetInt32(0);
+                    quiz.Theme = reader.GetString(1);
+                    return quiz;
+                }
+
+                return null;
             }   
         }
 
@@ -54,53 +73,13 @@ namespace HistoryTime.Data
                 return questions;
             }
         }
-
-        public Quiz Get(int id)
-        {
-            using (var connection = new NpgsqlConnection(_connectionString))
-            {
-                connection.Open();
-                var command = new NpgsqlCommand($"select * from quizzes where id={id}", connection);
-                NpgsqlDataReader reader = command.ExecuteReader();
-                if (reader.Read())
-                {
-                    var quiz = new Quiz();
-                    quiz.Id = reader.GetInt32(0);
-                    quiz.Name = reader.GetString(1);
-                    return quiz;
-                }
-
-                return null;
-            }   
-        }
-
-        public Quiz Get(string name)
-        {
-            using (var connection = new NpgsqlConnection(_connectionString))
-            {
-                connection.Open();
-                var command = new NpgsqlCommand($"select * from quizzes where name='{name}'", connection);
-                NpgsqlDataReader reader = command.ExecuteReader();
-                if (reader.Read())
-                {
-                    var quiz = new Quiz();
-                    quiz.Id = reader.GetInt32(0);
-                    quiz.Name = reader.GetString(1);
-                    return quiz;
-                }
-
-                return null;
-            }   
-        }
-
-      
-
+        
         public void Create(Quiz quiz)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
-                var command = new NpgsqlCommand($"insert into quizzes(name) values('{quiz.Name}')", connection);
+                var command = new NpgsqlCommand($"insert into quizzes(theme) values('{quiz.Theme}')", connection);
                 int number = command.ExecuteNonQuery();
             }
         }

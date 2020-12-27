@@ -7,8 +7,6 @@ namespace HistoryTime.Domain
         IEnumerable<Article> Get();
         
         Article Get(int id);
-        
-        Article Get(string header);
 
         void Create(Article article);
 

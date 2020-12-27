@@ -7,12 +7,10 @@ namespace HistoryTime.Controllers
     public class UsersController : Controller
     {
         private readonly IUsersRepository _usersRepository;
-        private readonly IUsersAnswersRepository _usersAnswersRepository;
 
-        public UsersController(IUsersRepository usersRepository, IUsersAnswersRepository usersAnswersRepository)
+        public UsersController(IUsersRepository usersRepository)
         {
             _usersRepository = usersRepository;
-            _usersAnswersRepository = usersAnswersRepository;
         }
 
         [HttpGet]
@@ -22,32 +20,35 @@ namespace HistoryTime.Controllers
             return Ok(users);
         }
 
-        [Route("{name}")]
+        [Route("{id}")]
         [HttpGet]
-        public IActionResult Get(string name)
+        public IActionResult Get(int id)
         {
-            var user = _usersRepository.Get(name);
+            var user = _usersRepository.Get(id);
             if (user == null)
                 return NotFound();
-            user.UserAnswers = _usersAnswersRepository.Get(user.Id);
+            user.UserAnswers = _usersRepository.GetUserAnswers(id);
             return Ok(user);
         }
         
         [HttpPost]
-        public IActionResult Register(string name)
+        public IActionResult Register(User user)
         {
             _usersRepository.Create(new User
             {
-                Name = name
+                Name = user.Name,
+                Surname = user.Surname,
+                Patronymic = user.Patronymic,
+                Email = user.Email,
+                DateOfBirth = user.DateOfBirth
             });
-            return Ok(_usersRepository.Get(name));
+            return Ok(_usersRepository.Get(user.Id));
         }
 
         [HttpDelete]
-        public IActionResult RemoveUser(string name)
+        public IActionResult RemoveUser(int id)
         {
-            var user = _usersRepository.Get(name);
-            _usersRepository.Delete(user.Id);
+            _usersRepository.Delete(id);
             return Ok();
         }
     }

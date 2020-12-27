@@ -8,8 +8,6 @@ namespace HistoryTime.Domain
 
         User Get(int id);
 
-        User Get(string name);
-
         IEnumerable<UserAnswer> GetUserAnswers(int id);
 
         void Create(User user);
