@@ -17,7 +17,6 @@ C:\University\Projects\AdvertisingBillboard\HistoryTime\HistoryTime\obj\Debug\ne
 C:\University\Projects\AdvertisingBillboard\HistoryTime\HistoryTime\obj\Debug\netcoreapp3.0\HistoryTime.dll
 C:\University\Projects\AdvertisingBillboard\HistoryTime\HistoryTime\obj\Debug\netcoreapp3.0\HistoryTime.pdb
 C:\University\Projects\HistoryTime\HistoryTime\bin\Debug\netcoreapp3.0\appsettings.Development.json
-C:\University\Projects\HistoryTime\HistoryTime\bin\Debug\netcoreapp3.0\Properties\launchSettings.json
 C:\University\Projects\HistoryTime\HistoryTime\bin\Debug\netcoreapp3.0\appsettings.json
 C:\University\Projects\HistoryTime\HistoryTime\bin\Debug\netcoreapp3.0\HistoryTime.exe
 C:\University\Projects\HistoryTime\HistoryTime\bin\Debug\netcoreapp3.0\HistoryTime.deps.json
@@ -46,3 +45,6 @@ C:\University\Projects\HistoryTime\HistoryTime\bin\Debug\netcoreapp3.0\Swashbuck
 C:\University\Projects\HistoryTime\HistoryTime\bin\Debug\netcoreapp3.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\University\Projects\HistoryTime\HistoryTime\bin\Debug\netcoreapp3.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\University\Projects\HistoryTime\HistoryTime\obj\Debug\netcoreapp3.0\HistoryTime.MvcApplicationPartsAssemblyInfo.cs
+C:\University\Projects\HistoryTime\HistoryTime\obj\Debug\netcoreapp3.0\HistoryTime.csproj.CoreCompileInputs.cache
+C:\University\Projects\HistoryTime\HistoryTime\obj\Debug\netcoreapp3.0\scopedcss\bundle\HistoryTime.styles.css
+C:\University\Projects\HistoryTime\HistoryTime\obj\Debug\netcoreapp3.0\HistoryTime.genruntimeconfig.cache

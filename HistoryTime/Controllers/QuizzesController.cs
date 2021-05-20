@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using HistoryTime.Domain;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,27 +15,27 @@ namespace HistoryTime.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetQuizzes()
+        public async Task<IActionResult> GetQuizzes()
         {
-            var quizzes = _quizzesRepository.Get();
+            var quizzes = await _quizzesRepository.GetAll();
             return Ok(quizzes);
         }
 
         [Route("{id}")]
         [HttpGet]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var quiz = _quizzesRepository.Get(id);
+            var quiz = await _quizzesRepository.Get(id);
             if (quiz == null)
                 return NotFound();
-            quiz.Questions = _quizzesRepository.GetQuestions(quiz.Id);
+            quiz.Questions = await _quizzesRepository.GetQuestions(quiz.Id);
             return Ok(quiz);
         }
 
         [HttpPost]
-        public IActionResult AddQuiz(Quiz quiz)
+        public async Task<IActionResult> AddQuiz(Quiz quiz)
         {
-            _quizzesRepository.Create(new Quiz
+            await _quizzesRepository.Create(new Quiz
             {
                 Theme = quiz.Theme
             });
@@ -42,10 +43,10 @@ namespace HistoryTime.Controllers
         }
 
         [HttpDelete]
-        public IActionResult DeleteQuiz(int id)
+        public async Task<IActionResult> DeleteQuiz(int id)
         {
-            _quizzesRepository.Delete(id);
-            return Ok(_quizzesRepository.Get());
+            await _quizzesRepository.Delete(id);
+            return Ok(await _quizzesRepository.GetAll());
         }
     }
 }

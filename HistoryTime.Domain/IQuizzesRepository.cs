@@ -1,17 +1,11 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HistoryTime.Domain
 {
-    public interface IQuizzesRepository
+    public interface IQuizzesRepository : IRepository<Quiz>
     {
-        IEnumerable<Quiz> Get();
-
-        Quiz Get(int id);
-
-        IEnumerable<Question> GetQuestions(int id);
-
-        void Create(Quiz quiz);
-
-        void Delete(int id);
+        Task<IEnumerable<Question>> GetQuestions(int id);
+        
     }
 }

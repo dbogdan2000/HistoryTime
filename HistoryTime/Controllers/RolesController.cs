@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using HistoryTime.Data;
 using HistoryTime.Domain;
 using Microsoft.AspNetCore.Mvc;
@@ -10,18 +11,18 @@ namespace HistoryTime.Controllers
     [Route("api/roles")]
     public class RolesController : Controller
     {
-        private readonly IRolesRepository _rolesRepository;
+        private readonly IRepository<Role> _rolesRepository;
 
-        public RolesController(IRolesRepository rolesRepository)
+        public RolesController(IRepository<Role> rolesRepository)
         {
             _rolesRepository = rolesRepository;
         }
 
         [HttpGet]
-        public IActionResult GetRoles()
+        public async Task<IActionResult> GetRoles()
         {
-            var roles = _rolesRepository.Get();
-            return Ok(roles.ToList());
+            var roles = await _rolesRepository.GetAll();
+            return Ok(roles);
         }
     }
 }

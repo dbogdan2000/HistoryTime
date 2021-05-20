@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using HistoryTime.Domain;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,38 +20,38 @@ namespace HistoryTime.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAnswersTheQuestions()
+        public async Task<IActionResult> GetAnswersTheQuestions()
         {
-            var answersTheQuestions = _answersTheQuestionsRepository.Get();
+            var answersTheQuestions = await _answersTheQuestionsRepository.GetAll();
             return Ok(answersTheQuestions);
         }
 
         [Route("{id}")]
         [HttpGet]
-        public IActionResult GetAnswerTheQuestion(int questionId, int answerId)
+        public async Task<IActionResult> GetAnswerTheQuestion(int questionId, int answerId)
         {
-            var question = _answersTheQuestionsRepository.GetQuestion(questionId);
-            var answer = _answersTheQuestionsRepository.GetAnswer(answerId);
+            var question = await _answersTheQuestionsRepository.GetQuestion(questionId);
+            var answer = await _answersTheQuestionsRepository.GetAnswer(answerId);
             if(question == null || answer == null)
                 return NotFound();
-            var answerTheQuestion = _answersTheQuestionsRepository.Get(questionId, answerId);
-            answerTheQuestion.Question = _answersTheQuestionsRepository.GetQuestion(questionId);
-            answerTheQuestion.Answer = _answersTheQuestionsRepository.GetAnswer(answerId);
+            var answerTheQuestion = await _answersTheQuestionsRepository.Get(questionId, answerId);
+            answerTheQuestion.Question = await _answersTheQuestionsRepository.GetQuestion(questionId);
+            answerTheQuestion.Answer = await _answersTheQuestionsRepository.GetAnswer(answerId);
             return Ok(answerTheQuestion);
         }
 
         [Route("{questionId}")]
         [HttpGet]
-        public IActionResult GetAnswersTheQuestion(int questionId)
+        public async Task<IActionResult> GetAnswersTheQuestion(int questionId)
         {
-            var question = _answersTheQuestionsRepository.GetQuestion(questionId);
+            var question = await _answersTheQuestionsRepository.GetQuestion(questionId);
             if (question == null)
                 return NotFound();
-            var answersTheQuestion = _questionsRepository.GetAnswersTheQuestion(questionId);
+            var answersTheQuestion = await _questionsRepository.GetAnswersTheQuestion(questionId);
             foreach (var answerTheQuestion in answersTheQuestion)
             {
-                answerTheQuestion.Question = _answersTheQuestionsRepository.GetQuestion(answerTheQuestion.QuestionId);
-                answerTheQuestion.Answer = _answersTheQuestionsRepository.GetAnswer(answerTheQuestion.AnswerId);
+                answerTheQuestion.Question = await _answersTheQuestionsRepository.GetQuestion(answerTheQuestion.QuestionId);
+                answerTheQuestion.Answer = await _answersTheQuestionsRepository.GetAnswer(answerTheQuestion.AnswerId);
             }
 
             return Ok(answersTheQuestion);
@@ -58,29 +59,29 @@ namespace HistoryTime.Controllers
 
         [Route("{answerId}")]
         [HttpGet]
-        public IActionResult GetQuestionsByAnswer(int answerId)
+        public async Task<IActionResult> GetQuestionsByAnswer(int answerId)
         {
-            var answer = _answersTheQuestionsRepository.GetAnswer(answerId);
+            var answer = await _answersTheQuestionsRepository.GetAnswer(answerId);
             if (answer == null)
                 return NotFound();
-            var questionsByAnswer = _answersRepository.GetAnswerTheQuestions(answerId);
+            var questionsByAnswer = await _answersRepository.GetAnswerTheQuestions(answerId);
             foreach (var questionByAnswer in questionsByAnswer)
             {
-                questionByAnswer.Question = _answersTheQuestionsRepository.GetQuestion(questionByAnswer.QuestionId);
-                questionByAnswer.Answer = _answersTheQuestionsRepository.GetAnswer(questionByAnswer.AnswerId);
+                questionByAnswer.Question = await _answersTheQuestionsRepository.GetQuestion(questionByAnswer.QuestionId);
+                questionByAnswer.Answer = await _answersTheQuestionsRepository.GetAnswer(questionByAnswer.AnswerId);
             }
 
             return Ok(questionsByAnswer);
         }
 
         [HttpPost]
-        public IActionResult AddAnswerTheQuestion(AnswerTheQuestion answerTheQuestion)
+        public async Task<IActionResult> AddAnswerTheQuestion(AnswerTheQuestion answerTheQuestion)
         {
-            var question = _answersTheQuestionsRepository.GetQuestion(answerTheQuestion.QuestionId);
-            var answer = _answersTheQuestionsRepository.GetAnswer(answerTheQuestion.AnswerId);
+            var question = await _answersTheQuestionsRepository.GetQuestion(answerTheQuestion.QuestionId);
+            var answer = await _answersTheQuestionsRepository.GetAnswer(answerTheQuestion.AnswerId);
             if (question == null || answer == null)
                 return NotFound();
-            _answersTheQuestionsRepository.Create(new AnswerTheQuestion
+            await _answersTheQuestionsRepository.Create(new AnswerTheQuestion
             {
                 QuestionId = answerTheQuestion.QuestionId,
                 AnswerId = answerTheQuestion.AnswerId,
@@ -90,9 +91,9 @@ namespace HistoryTime.Controllers
         }
 
         [HttpDelete]
-        public IActionResult DeleteAnswerTheQuestion(int questionId, int answerId)
+        public async Task<IActionResult> DeleteAnswerTheQuestion(int questionId, int answerId)
         {
-            _answersTheQuestionsRepository.Delete(questionId, answerId);
+            await _answersTheQuestionsRepository.Delete(questionId, answerId);
             return Ok();
         }
     }

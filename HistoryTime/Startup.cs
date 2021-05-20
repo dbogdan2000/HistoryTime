@@ -32,11 +32,11 @@ namespace HistoryTime
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton<IRolesRepository>(new RolesRepository(_config.ConnectionString));
+            services.AddSingleton<IRepository<Role>>(new RolesRepository(_config.ConnectionString));
             services.AddSingleton<IUsersRepository>(new UsersRepository(_config.ConnectionString));
             services.AddSingleton<IQuizzesRepository>(new QuizzesRepository(_config.ConnectionString));
             services.AddSingleton<IAnswersRepository>(new AnswersRepository(_config.ConnectionString));
-            services.AddSingleton<IArticlesRepository>(new ArticlesRepository(_config.ConnectionString));
+            services.AddSingleton<IRepository<Article>>(new ArticlesRepository(_config.ConnectionString));
             services.AddSingleton<IQuestionsRepository>(new QuestionsRepository(_config.ConnectionString));
             services.AddSingleton<IUsersAnswersRepository>(new UsersAnswersRepository(_config.ConnectionString));
             services.AddSingleton<IAnswersTheQuestionsRepository>(

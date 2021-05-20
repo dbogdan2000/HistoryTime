@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using HistoryTime.Domain;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,27 +15,27 @@ namespace HistoryTime.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetUsers()
+        public async Task<IActionResult> GetUsers()
         {
-            var users = _usersRepository.Get();
+            var users = await _usersRepository.GetAll();
             return Ok(users);
         }
 
         [Route("{id}")]
         [HttpGet]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var user = _usersRepository.Get(id);
+            var user = await _usersRepository.Get(id);
             if (user == null)
                 return NotFound();
-            user.UserAnswers = _usersRepository.GetUserAnswers(id);
+            user.UserAnswers = await _usersRepository.GetUserAnswers(id);
             return Ok(user);
         }
         
         [HttpPost]
-        public IActionResult Register(User user)
+        public async Task<IActionResult> Register(User user)
         {
-            _usersRepository.Create(new User
+            await _usersRepository.Create(new User
             {
                 Name = user.Name,
                 Surname = user.Surname,
@@ -42,13 +43,13 @@ namespace HistoryTime.Controllers
                 Email = user.Email,
                 DateOfBirth = user.DateOfBirth
             });
-            return Ok(_usersRepository.Get(user.Id));
+            return Ok(await _usersRepository.Get(user.Id));
         }
 
         [HttpDelete]
-        public IActionResult RemoveUser(int id)
+        public async Task<IActionResult> RemoveUser(int id)
         {
-            _usersRepository.Delete(id);
+            await _usersRepository.Delete(id);
             return Ok();
         }
     }

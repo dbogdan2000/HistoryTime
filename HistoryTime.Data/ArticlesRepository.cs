@@ -1,80 +1,68 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using HistoryTime.Domain;
 using Npgsql;
 
 namespace HistoryTime.Data
 {
-    public class ArticlesRepository : IArticlesRepository
+    public class ArticlesRepository : ConnectionRepository, IRepository<Article>
     {
-        private readonly string _connectionString;
-
-        public ArticlesRepository(string connectionString)
+        public ArticlesRepository(string connectionString) : base(connectionString)
         {
-            _connectionString = connectionString;
         }
-        
-        public IEnumerable<Article> Get()
+
+        public async Task<IEnumerable<Article>> GetAll()
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            var command = new NpgsqlCommand("select * from articles", Connection);
+            NpgsqlDataReader reader = await command.ExecuteReaderAsync();
+            var articles = new List<Article>();
+            while (await reader.ReadAsync())
             {
-                connection.Open();
-                var command = new NpgsqlCommand($"select * from articles", connection);
-                NpgsqlDataReader reader = command.ExecuteReader();
-                var articles = new List<Article>();
-                while (reader.Read())
+                var article = new Article
                 {
-                    var article = new Article();
-                    article.Id = reader.GetInt32(0);
-                    article.Header = reader.GetString(1);
-                    article.Text = reader.GetString(2);
-                    article.Author = reader.GetString(3);
-                    articles.Add(article);
-                }
-
-                return articles;
+                    Id = reader.GetInt32(0),
+                    Header = reader.GetString(1),
+                    Text = reader.GetString(2),
+                    Author = reader.GetString(3)
+                };
+                articles.Add(article);
             }
+
+            return articles;
         }
 
-        public Article Get(int id)
+        public async Task<Article> Get(int id)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            var command = new NpgsqlCommand($"select * from articles where id = {id}", Connection);
+            NpgsqlDataReader reader = await command.ExecuteReaderAsync();
+            if (await reader.ReadAsync())
             {
-                connection.Open();
-                var command = new NpgsqlCommand($"select * from articles where id = {id}", connection);
-                NpgsqlDataReader reader = command.ExecuteReader();
-                if (reader.Read())
+                var article = new Article
                 {
-                    var article = new Article();
-                    article.Id = reader.GetInt32(0);
-                    article.Header = reader.GetString(1);
-                    article.Text = reader.GetString(2);
-                    article.Author = reader.GetString(3);
-                    return article;
-                }
-
-                return null;
+                    Id = reader.GetInt32(0),
+                    Header = reader.GetString(1),
+                    Text = reader.GetString(2),
+                    Author = reader.GetString(3)
+                };
+                return article;
             }
+
+            return null;
         }
 
-        public void Create(Article article)
+        public async Task Create(Article article)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
-            {
-                connection.Open();
-                var command = new NpgsqlCommand($"insert into articles(header, text_of_article, author) values('{article.Header}', '{article.Text}', '{article.Author}')", connection);
-                int number = command.ExecuteNonQuery();
-            }
+            var command = new NpgsqlCommand(
+                $"insert into articles(header, text_of_article, author) values('{article.Header}', '{article.Text}', '{article.Author}')",
+                Connection);
+            await command.ExecuteNonQueryAsync();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
-            {
-                connection.Open();
-                var command = new NpgsqlCommand($"delete from articles where id = {id}", connection);
-                int number = command.ExecuteNonQuery();
-            }
+            var command = new NpgsqlCommand($"delete from articles where id = {id}", Connection);
+            await command.ExecuteNonQueryAsync();
         }
     }
 }

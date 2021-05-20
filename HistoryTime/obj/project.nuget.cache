@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "GSi/kudflkpebjiEvuCKm3/R50pTSWZpyWjjvOkXHUh8NQtTj767aLbMsYVQLcvtg15hb9iJncPgKc5lNkwKsg==",
+  "dgSpecHash": "uA5Jje1Lw8wcwgHBiYG6izEJY2nu6zUpN0KL/Ez/5wDBlYlAJAPZcSwvVK036PVc3PLWFqJmcByvKi9KubOe6Q==",
   "success": true,
   "projectFilePath": "C:\\University\\Projects\\HistoryTime\\HistoryTime\\HistoryTime.csproj",
   "expectedPackageFiles": [
@@ -11,7 +11,8 @@
     "C:\\Users\\Tom\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\5.4.0\\swashbuckle.aspnetcore.swagger.5.4.0.nupkg.sha512",
     "C:\\Users\\Tom\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\5.4.0\\swashbuckle.aspnetcore.swaggergen.5.4.0.nupkg.sha512",
     "C:\\Users\\Tom\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\5.4.0\\swashbuckle.aspnetcore.swaggerui.5.4.0.nupkg.sha512",
-    "C:\\Users\\Tom\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.6.0\\system.runtime.compilerservices.unsafe.4.6.0.nupkg.sha512"
+    "C:\\Users\\Tom\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.6.0\\system.runtime.compilerservices.unsafe.4.6.0.nupkg.sha512",
+    "C:\\Users\\Tom\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.0.3\\microsoft.netcore.app.host.win-x64.3.0.3.nupkg.sha512"
   ],
   "logs": []
 }

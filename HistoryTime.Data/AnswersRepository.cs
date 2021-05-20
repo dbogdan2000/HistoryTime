@@ -1,117 +1,102 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using HistoryTime.Domain;
 using Npgsql;
 
 namespace HistoryTime.Data
 {
-    public class AnswersRepository : IAnswersRepository
+    public class AnswersRepository : ConnectionRepository, IAnswersRepository
     {
-        private readonly string _connectionString;
-
-        public AnswersRepository(string connectionString)
+        public AnswersRepository(string connectionString) : base(connectionString)
         {
-            _connectionString = connectionString;
         }
-        public IEnumerable<Answer> Get()
+
+        public async Task<IEnumerable<Answer>> GetAll()
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            var command = new NpgsqlCommand("select * from answers", Connection);
+            NpgsqlDataReader reader = await command.ExecuteReaderAsync();
+            var answers = new List<Answer>();
+            while (await reader.ReadAsync())
             {
-                connection.Open();
-                var command = new NpgsqlCommand($"select * from answers", connection);
-                NpgsqlDataReader reader = command.ExecuteReader();
-                var answers = new List<Answer>();
-                while (reader.Read())
+                var answer = new Answer
                 {
-                    var answer = new Answer();
-                    answer.Id = reader.GetInt32(0);
-                    answer.Text = reader.GetString(1);
-                    answers.Add(answer);
-                }
-
-                return answers;
+                    Id = reader.GetInt32(0),
+                    Text = reader.GetString(1)
+                };
+                answers.Add(answer);
             }
+
+            return answers;
         }
 
-        public Answer Get(int id)
+        public async Task<Answer> Get(int id)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            var command = new NpgsqlCommand($"select * from answers where id = {id}", Connection);
+
+            NpgsqlDataReader reader = await command.ExecuteReaderAsync();
+            if (await reader.ReadAsync())
             {
-                connection.Open();
-                var command = new NpgsqlCommand($"select * from answers where id = {id}", connection);
-                NpgsqlDataReader reader = command.ExecuteReader();
-                if (reader.Read())
+                var answer = new Answer
                 {
-                    var answer = new Answer();
-                    answer.Id = reader.GetInt32(0);
-                    answer.Text = reader.GetString(1);
-                    return answer;
-                }
-
-                return null;
+                    Id = reader.GetInt32(0), 
+                    Text = reader.GetString(1)
+                };
+                return answer;
             }
+
+            return null;
         }
-        public ICollection<UserAnswer> GetUsersAnswers(int id)
+
+        public async Task<ICollection<UserAnswer>> GetUsersAnswers(int id)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            var command = new NpgsqlCommand($"select * from users_answers where answer_id = {id}", Connection);
+            NpgsqlDataReader reader = await command.ExecuteReaderAsync();
+            var usersAnswers = new List<UserAnswer>();
+            while (await reader.ReadAsync())
             {
-                connection.Open();
-                var command = new NpgsqlCommand($"select * from users_answers where answer_id = {id}", connection);
-                NpgsqlDataReader reader = command.ExecuteReader();
-                var usersAnswers = new List<UserAnswer>();
-                while (reader.Read())
+                var userAnswer = new UserAnswer
                 {
-                    var userAnswer = new UserAnswer();
-                    userAnswer.UserId = reader.GetInt32(0);
-                    userAnswer.QuestionId = reader.GetInt32(1);
-                    userAnswer.AnswerId = reader.GetInt32(2);
-                    usersAnswers.Add(userAnswer);
-                }
-
-                return usersAnswers;
+                    UserId = reader.GetInt32(0),
+                    QuestionId = reader.GetInt32(1),
+                    AnswerId = reader.GetInt32(2)
+                };
+                usersAnswers.Add(userAnswer);
             }
+
+            return usersAnswers;
         }
 
-        public ICollection<AnswerTheQuestion> GetAnswerTheQuestions(int id)
+        public async Task<ICollection<AnswerTheQuestion>> GetAnswerTheQuestions(int id)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            var command = new NpgsqlCommand($"select * from answers_the_questions where answer_id = {id}", Connection);
+            NpgsqlDataReader reader = await command.ExecuteReaderAsync();
+            var answersTheQuestions = new List<AnswerTheQuestion>();
+            while (await reader.ReadAsync())
             {
-                connection.Open();
-                var command = new NpgsqlCommand($"select * from answers_the_questions where answer_id = {id}", connection);
-                NpgsqlDataReader reader = command.ExecuteReader();
-                var answersTheQuestions = new List<AnswerTheQuestion>();
-                while (reader.Read())
+                var answerTheQuestion = new AnswerTheQuestion
                 {
-                    var answerTheQuestion = new AnswerTheQuestion();
-                    answerTheQuestion.QuestionId = reader.GetInt32(0);
-                    answerTheQuestion.AnswerId = reader.GetInt32(1);
-                    answerTheQuestion.IsCorrect = reader.GetBoolean(2);
-                    answersTheQuestions.Add(answerTheQuestion);
-                }
-
-                return answersTheQuestions;
+                    QuestionId = reader.GetInt32(0),
+                    AnswerId = reader.GetInt32(1),
+                    IsCorrect = reader.GetBoolean(2)
+                };
+                answersTheQuestions.Add(answerTheQuestion);
             }
+
+            return answersTheQuestions;
         }
 
-        public void Create(Answer answer)
+        public async Task Create(Answer answer)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
-            {
-                connection.Open();
-                var command = new NpgsqlCommand($"insert into answers(text_of_answer) values('{answer.Text}')", connection);
-                int number = command.ExecuteNonQuery();
-            }
+            var command = new NpgsqlCommand($"insert into answers(text_of_answer) values('{answer.Text}')", Connection);
+            await command.ExecuteNonQueryAsync();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
-            {
-                connection.Open();
-                var command = new NpgsqlCommand($"delete from answers where id = {id}", connection);
-                int number = command.ExecuteNonQuery();
-            }
+            var command = new NpgsqlCommand($"delete from answers where id = {id}", Connection);
+            await command.ExecuteNonQueryAsync();
         }
     }
 }

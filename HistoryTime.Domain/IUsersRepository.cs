@@ -1,17 +1,12 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HistoryTime.Domain
 {
-    public interface IUsersRepository
+    public interface IUsersRepository : IRepository<User>
     {
-        IEnumerable<User> Get();
+        Task<IEnumerable<UserAnswer>> GetUserAnswers(int id);
 
-        User Get(int id);
-
-        IEnumerable<UserAnswer> GetUserAnswers(int id);
-
-        void Create(User user);
-
-        void Delete(int id);
+        Task<Role> GetRole(int roleId);
     }
 }

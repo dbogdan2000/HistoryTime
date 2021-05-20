@@ -9,3 +9,4 @@ C:\University\Projects\HistoryTime\HistoryTime.Data\bin\Debug\netcoreapp3.0\Hist
 C:\University\Projects\HistoryTime\HistoryTime.Data\obj\Debug\netcoreapp3.0\HistoryTime.Data.csproj.CopyComplete
 C:\University\Projects\HistoryTime\HistoryTime.Data\obj\Debug\netcoreapp3.0\HistoryTime.Data.dll
 C:\University\Projects\HistoryTime\HistoryTime.Data\obj\Debug\netcoreapp3.0\HistoryTime.Data.pdb
+C:\University\Projects\HistoryTime\HistoryTime.Data\obj\Debug\netcoreapp3.0\HistoryTime.Data.csproj.CoreCompileInputs.cache

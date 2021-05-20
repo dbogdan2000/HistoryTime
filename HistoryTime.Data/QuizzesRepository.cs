@@ -1,98 +1,82 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 using HistoryTime.Domain;
 using Npgsql;
 
 namespace HistoryTime.Data
 {
-    public class QuizzesRepository: IQuizzesRepository
+    public class QuizzesRepository : ConnectionRepository, IQuizzesRepository
     {
-        private readonly string _connectionString;
-
-        public QuizzesRepository(string connectionString)
+        public QuizzesRepository(string connectionString) : base(connectionString)
         {
-            _connectionString = connectionString;
         }
 
-        public IEnumerable<Quiz> Get()
+        public async Task<IEnumerable<Quiz>> GetAll()
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            var command = new NpgsqlCommand("select * from quizzes", Connection);
+            NpgsqlDataReader reader = await command.ExecuteReaderAsync();
+            var quizzes = new List<Quiz>();
+            while (await reader.ReadAsync())
             {
-                connection.Open();
-                var command = new NpgsqlCommand($"select * from quizzes", connection);
-                NpgsqlDataReader reader = command.ExecuteReader();
-                var quizzes = new List<Quiz>();
-                while (reader.Read())
+                var quiz = new Quiz
                 {
-                    var quiz = new Quiz();
-                    quiz.Id = reader.GetInt32(0);
-                    quiz.Theme = reader.GetString(1);
-                    quizzes.Add(quiz);
-                }
-                return quizzes;
-            }   
+                    Id = reader.GetInt32(0),
+                    Theme = reader.GetString(1)
+                };
+                quizzes.Add(quiz);
+            }
+
+            return quizzes;
         }
-        
-        public Quiz Get(int id)
+
+        public async Task<Quiz> Get(int id)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            var command = new NpgsqlCommand($"select * from quizzes where id={id}", Connection);
+            NpgsqlDataReader reader = await command.ExecuteReaderAsync();
+            if (await reader.ReadAsync())
             {
-                connection.Open();
-                var command = new NpgsqlCommand($"select * from quizzes where id={id}", connection);
-                NpgsqlDataReader reader = command.ExecuteReader();
-                if (reader.Read())
+                var quiz = new Quiz
                 {
-                    var quiz = new Quiz();
-                    quiz.Id = reader.GetInt32(0);
-                    quiz.Theme = reader.GetString(1);
-                    return quiz;
-                }
+                    Id = reader.GetInt32(0),
+                    Theme = reader.GetString(1)
+                };
+                return quiz;
+            }
 
-                return null;
-            }   
+            return null;
         }
 
-        public IEnumerable<Question> GetQuestions(int quizId)
+        public async Task<IEnumerable<Question>> GetQuestions(int quizId)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
+            var command = new NpgsqlCommand($"select * from questions where quiz_id = {quizId}", Connection);
+            NpgsqlDataReader reader = await command.ExecuteReaderAsync();
+            var questions = new List<Question>();
+            while (await reader.ReadAsync())
             {
-                connection.Open();
-                var command = new NpgsqlCommand($"select * from questions where quiz_id = {quizId}", connection);
-                NpgsqlDataReader reader = command.ExecuteReader();
-                var questions = new List<Question>();
-                while (reader.Read())
+                var question = new Question
                 {
-                    var question = new Question();
-                    question.Id = reader.GetInt32(0);
-                    question.Text = reader.GetString(1);
-                    question.QuizId = reader.GetInt32(2);
-                    questions.Add(question);
-                }
-
-                return questions;
+                    Id = reader.GetInt32(0),
+                    Text = reader.GetString(1),
+                    QuizId = reader.GetInt32(2)
+                };
+                questions.Add(question);
             }
+
+            return questions;
         }
-        
-        public void Create(Quiz quiz)
+
+        public async Task Create(Quiz quiz)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
-            {
-                connection.Open();
-                var command = new NpgsqlCommand($"insert into quizzes(theme) values('{quiz.Theme}')", connection);
-                int number = command.ExecuteNonQuery();
-            }
+            var command = new NpgsqlCommand($"insert into quizzes(theme) values('{quiz.Theme}')", Connection);
+            await command.ExecuteNonQueryAsync();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
-            {
-                connection.Open();
-                var command = new NpgsqlCommand($"delete from quizzes where id={id}", connection);
-                int number = command.ExecuteNonQuery();
-            }
+            var command = new NpgsqlCommand($"delete from quizzes where id={id}", Connection);
+            await command.ExecuteNonQueryAsync();
         }
-
     }
 }

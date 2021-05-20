@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using HistoryTime.Domain;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,28 +15,28 @@ namespace HistoryTime.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAnswers()
+        public async Task<IActionResult> GetAnswers()
         {
-            var answers = _answersRepository.Get();
+            var answers = await _answersRepository.GetAll();
             return Ok(answers);
         }
 
         [Route("{id}")]
         [HttpGet]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var answer = _answersRepository.Get(id);
+            var answer = await _answersRepository.Get(id);
             if (answer == null)
                 return NotFound();
-            answer.UsersAnswers = _answersRepository.GetUsersAnswers(answer.Id);
-            answer.AnswerTheQuestions = _answersRepository.GetAnswerTheQuestions(answer.Id);
+            answer.UsersAnswers = await _answersRepository.GetUsersAnswers(answer.Id);
+            answer.AnswerTheQuestions = await _answersRepository.GetAnswerTheQuestions(answer.Id);
             return Ok(answer);
         }
 
         [HttpPost]
-        public IActionResult AddAnswer(Answer answer)
+        public async Task<IActionResult> AddAnswer(Answer answer)
         {
-            _answersRepository.Create(new Answer
+            await _answersRepository.Create(new Answer
             {
                 Text = answer.Text
             });
@@ -43,9 +44,9 @@ namespace HistoryTime.Controllers
         }
 
         [HttpDelete]
-        public IActionResult RemoveAnswer(int id)
+        public async Task<IActionResult> RemoveAnswer(int id)
         {
-            _answersRepository.Delete(id);
+            await _answersRepository.Delete(id);
             return Ok();
         }
     }

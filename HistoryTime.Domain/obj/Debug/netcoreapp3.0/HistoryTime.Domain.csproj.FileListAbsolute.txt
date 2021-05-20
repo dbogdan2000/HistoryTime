@@ -6,3 +6,4 @@ C:\University\Projects\HistoryTime\HistoryTime.Domain\obj\Debug\netcoreapp3.0\Hi
 C:\University\Projects\HistoryTime\HistoryTime.Domain\obj\Debug\netcoreapp3.0\HistoryTime.Domain.AssemblyInfo.cs
 C:\University\Projects\HistoryTime\HistoryTime.Domain\obj\Debug\netcoreapp3.0\HistoryTime.Domain.dll
 C:\University\Projects\HistoryTime\HistoryTime.Domain\obj\Debug\netcoreapp3.0\HistoryTime.Domain.pdb
+C:\University\Projects\HistoryTime\HistoryTime.Domain\obj\Debug\netcoreapp3.0\HistoryTime.Domain.csproj.CoreCompileInputs.cache
