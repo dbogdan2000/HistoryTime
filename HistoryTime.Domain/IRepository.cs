@@ -8,6 +8,7 @@ namespace HistoryTime.Domain
     {
         Task<IEnumerable<T>> GetAll();
         Task<T> Get(int id);
+        Task Update(T item);
         Task Create(T item);
         Task Delete(int id);
     }

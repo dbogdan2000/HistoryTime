@@ -31,6 +31,13 @@ namespace HistoryTime.Controllers
             user.UserAnswers = await _usersRepository.GetUserAnswers(id);
             return Ok(user);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser(User user)
+        {
+            await _usersRepository.Update(user);
+            return Ok(user);
+        }
         
         [HttpPost]
         public async Task<IActionResult> Register(User user)

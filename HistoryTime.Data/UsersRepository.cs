@@ -14,6 +14,7 @@ namespace HistoryTime.Data
 
         public async Task<IEnumerable<User>> GetAll()
         {
+            await Connection.OpenAsync();
             var command = new NpgsqlCommand($"select * from users", Connection);
             NpgsqlDataReader reader = await command.ExecuteReaderAsync();
             var users = new List<User>();
@@ -31,12 +32,13 @@ namespace HistoryTime.Data
                 };
                 users.Add(user);
             }
-
+            await Connection.CloseAsync();
             return users;
         }
 
         public async Task<User> Get(int id)
         {
+            await Connection.OpenAsync();
             var command = new NpgsqlCommand($"select * from users where id={id}", Connection);
             NpgsqlDataReader reader = await command.ExecuteReaderAsync();
             if (await reader.ReadAsync())
@@ -51,14 +53,17 @@ namespace HistoryTime.Data
                     Email = reader.GetString(5),
                     DateOfBirth = reader.GetDateTime(6).Date
                 };
+                await Connection.CloseAsync();
                 return user;
             }
-
+            await Connection.CloseAsync();
             return null;
         }
+        
 
         public async Task<IEnumerable<UserAnswer>> GetUserAnswers(int userId)
         {
+            await Connection.OpenAsync();
             var command = new NpgsqlCommand($"select * from users_answers where user_id = {userId}", Connection);
             NpgsqlDataReader reader = await command.ExecuteReaderAsync();
             var userAnswers = new List<UserAnswer>();
@@ -72,12 +77,13 @@ namespace HistoryTime.Data
                 };
                 userAnswers.Add(userAnswer);
             }
-
+            await Connection.CloseAsync();
             return userAnswers;
         }
 
         public async Task<Role> GetRole(int roleId)
         {
+            await Connection.OpenAsync();
             var command = new NpgsqlCommand($"select * from roles where id = {roleId}", Connection);
             NpgsqlDataReader reader = await command.ExecuteReaderAsync();
             if (await reader.ReadAsync())
@@ -87,24 +93,40 @@ namespace HistoryTime.Data
                     Id = reader.GetInt32(0),
                     Name = reader.GetName(1)
                 };
+                await Connection.CloseAsync();
                 return role;
             }
-
+            await Connection.CloseAsync();
             return null;
+        }
+        
+        public async Task Update(User user)
+        { 
+            await Connection.OpenAsync();
+            var command =
+                new NpgsqlCommand(
+                    $"update user set first_name = '{user.Name}', role_id = {user.RoleId}, last_name = '{user.Surname}', patronymic = '{user.Patronymic}', email = '{user.Email}', date_of_birth = '{user.DateOfBirth.Date:d}' where id = {user.Id}",
+                    Connection);
+            await command.ExecuteNonQueryAsync();
+            await Connection.CloseAsync();
         }
 
         public async Task Create(User user)
         {
+            await Connection.OpenAsync();
             var command = new NpgsqlCommand(
-                $"insert into users(first_name, role_id, last_name, patronymic, email, date_of_birth) values('{user.Name}', 2, '{user.Surname}', '{user.Patronymic}', '{user.Email}','{user.DateOfBirth.Date.ToString("d")}')",
+                $"insert into users(first_name, role_id, last_name, patronymic, email, date_of_birth) values('{user.Name}', 2, '{user.Surname}', '{user.Patronymic}', '{user.Email}','{user.DateOfBirth.Date:d}')",
                 Connection);
             await command.ExecuteNonQueryAsync();
+            await Connection.CloseAsync();
         }
 
         public async Task Delete(int id)
         {
+            await Connection.OpenAsync();
             var command = new NpgsqlCommand($"delete from users where id = {id}", Connection);
             await command.ExecuteNonQueryAsync();
+            await Connection.CloseAsync();
         }
     }
 }

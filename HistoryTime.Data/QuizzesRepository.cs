@@ -11,10 +11,12 @@ namespace HistoryTime.Data
     {
         public QuizzesRepository(string connectionString) : base(connectionString)
         {
+            
         }
 
         public async Task<IEnumerable<Quiz>> GetAll()
         {
+            await Connection.OpenAsync();
             var command = new NpgsqlCommand("select * from quizzes", Connection);
             NpgsqlDataReader reader = await command.ExecuteReaderAsync();
             var quizzes = new List<Quiz>();
@@ -28,11 +30,13 @@ namespace HistoryTime.Data
                 quizzes.Add(quiz);
             }
 
+            await Connection.CloseAsync();
             return quizzes;
         }
 
         public async Task<Quiz> Get(int id)
         {
+            await Connection.OpenAsync();
             var command = new NpgsqlCommand($"select * from quizzes where id={id}", Connection);
             NpgsqlDataReader reader = await command.ExecuteReaderAsync();
             if (await reader.ReadAsync())
@@ -42,14 +46,17 @@ namespace HistoryTime.Data
                     Id = reader.GetInt32(0),
                     Theme = reader.GetString(1)
                 };
+                await Connection.CloseAsync();
                 return quiz;
             }
 
+            await Connection.CloseAsync();
             return null;
         }
 
         public async Task<IEnumerable<Question>> GetQuestions(int quizId)
         {
+            await Connection.OpenAsync();
             var command = new NpgsqlCommand($"select * from questions where quiz_id = {quizId}", Connection);
             NpgsqlDataReader reader = await command.ExecuteReaderAsync();
             var questions = new List<Question>();
@@ -64,19 +71,32 @@ namespace HistoryTime.Data
                 questions.Add(question);
             }
 
+            await Connection.CloseAsync();
             return questions;
+        }
+        
+        public async Task Update(Quiz quiz)
+        {
+            await Connection.OpenAsync();
+            var command = new NpgsqlCommand($"update quizzes set theme = '{quiz.Theme}' where id = {quiz.Id}", Connection);
+            await command.ExecuteNonQueryAsync();
+            await Connection.CloseAsync();
         }
 
         public async Task Create(Quiz quiz)
         {
+            await Connection.OpenAsync();
             var command = new NpgsqlCommand($"insert into quizzes(theme) values('{quiz.Theme}')", Connection);
             await command.ExecuteNonQueryAsync();
+            await Connection.CloseAsync();
         }
 
         public async Task Delete(int id)
         {
+            await Connection.OpenAsync();
             var command = new NpgsqlCommand($"delete from quizzes where id={id}", Connection);
             await command.ExecuteNonQueryAsync();
+            await Connection.CloseAsync();
         }
     }
 }

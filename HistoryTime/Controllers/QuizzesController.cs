@@ -32,6 +32,13 @@ namespace HistoryTime.Controllers
             return Ok(quiz);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> UpdateQuiz(Quiz quiz)
+        {
+            await _quizzesRepository.Update(quiz);
+            return Ok(quiz);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddQuiz(Quiz quiz)
         {

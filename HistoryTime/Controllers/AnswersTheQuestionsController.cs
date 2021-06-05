@@ -74,6 +74,13 @@ namespace HistoryTime.Controllers
             return Ok(questionsByAnswer);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> UpdateAnswerTheQuestion(AnswerTheQuestion answerTheQuestion)
+        {
+            await _answersTheQuestionsRepository.Update(answerTheQuestion);
+            return Ok(answerTheQuestion);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddAnswerTheQuestion(AnswerTheQuestion answerTheQuestion)
         {

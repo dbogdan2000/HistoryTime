@@ -15,6 +15,8 @@ namespace HistoryTime.Domain
 
         Task<Answer> GetAnswer(int answerId);
 
+        Task Update(AnswerTheQuestion answerTheQuestion);
+
         Task Create(AnswerTheQuestion answerTheQuestion);
 
         Task Delete(int questionId, int answerId);

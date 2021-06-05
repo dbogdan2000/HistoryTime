@@ -32,6 +32,13 @@ namespace HistoryTime.Controllers
             return Ok(article);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> UpdateArticle(Article article)
+        {
+            await _articlesRepository.Update(article);
+            return Ok(article);
+        }
+        
         [HttpPost]
         public async Task<IActionResult> AddArticle(Article article)
         {
